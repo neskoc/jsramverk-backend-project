@@ -31,7 +31,7 @@
     var err = new Error("Not Found");
     err.status = 404;
     next(err);
-};
+}
 
 function CustomError(err, req, res, next) {
     if (res.headersSent) {
@@ -47,4 +47,4 @@ function CustomError(err, req, res, next) {
             }
         ]
     });
-};
+}
