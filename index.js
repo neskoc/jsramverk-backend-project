@@ -15,6 +15,9 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const index = require('./routes/index.js');
+const hello = require('./routes/hello.js');
+const user = require('./routes/user/user.js');
+const mongo = require('./routes/mongo/mongo.js');
 const middleware = require("./middleware/index.js");
 const path = require("path");
 
@@ -56,6 +59,9 @@ app.use(middleware.logIncomingToConsole);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/', index);
+app.use('/user', user);
+app.use('/hello', hello);
+app.use('/mongo', mongo);
 
 
 app.use(middleware.StandardError);
