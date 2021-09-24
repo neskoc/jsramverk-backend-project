@@ -63,7 +63,9 @@ app.use('/mongo', mongo);
 app.use(middleware.StandardError);
 app.use(middleware.CustomError);
 
-app.listen(port, logStartUpDetailsToConsole);
+const server = app.listen(port, logStartUpDetailsToConsole);
+
+module.exports = server; // used for testing purposes
 
 /**
  * Log app details to console when starting up.

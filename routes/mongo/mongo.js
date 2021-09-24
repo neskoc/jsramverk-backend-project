@@ -20,7 +20,7 @@ router.get("/", function(request, response) {
 // Return a JSON object with list of all documents within the collection.
 router.get("/list", async (request, response, next) => {
     if (request.query.api_key !== config.api_key) {
-        var err = new Error("Aip key is missing");
+        var err = new Error("API key is missing");
 
         err.status = 403;
         next(err);
@@ -31,74 +31,13 @@ router.get("/list", async (request, response, next) => {
                     data: docs
                 };
 
-                console.log("docs in findincollection:");
-                console.log(data);
+                // console.log("docs in findincollection:");
+                // console.log(data);
                 response.status(201).json(data);
             }).catch((err) => {
                 console.log(err);
                 response.json(err);
             });
-    }
-});
-
-// Return a JSON object with list of all documents within the collection.
-router.get("/get", async (request, response, next) => {
-    if (request.query.api_key !== config.api_key) {
-        var err = new Error("Aip key is missing");
-
-        err.status = 403;
-        next(err);
-    } else {
-        await func.findInCollection({docName: `"${request.query.docName}"`}, {}, 0)
-            .then((doc) => {
-                const data = {
-                    data: doc
-                };
-
-                console.log("Found Document:");
-                console.log(data);
-                response.status(201).json(data);
-            }).catch((err) => {
-                console.log(err);
-                response.json(err);
-            });
-    }
-});
-
-// Return a JSON object with list of all documents within the collection.
-router.get("/getAll", async (request, response) => {
-    try {
-        let res = await func.findInCollection({}, {}, 0);
-
-        console.log(res);
-        response.status(201).json(res);
-    } catch (err) {
-        console.log(err);
-        response.json(err);
-    }
-});
-
-// Return a JSON object with list of all documents within the collection.
-router.post("/insert", async (request, response, next) => {
-    if (request.body.api_key !== config.api_key) {
-        var err = new Error("Aip key is missing");
-
-        err.status = 403;
-        next(err);
-    } else {
-        try {
-            let docObj = {
-                docName: `"${request.body.doc.docName}"`,
-                content: `"${request.body.doc.docContent}"`
-            };
-
-            await func.insertIntoCollection(docObj);
-            // console.log(res);
-            response.status(204).json();
-        } catch (err) {
-            console.log(err);
-            response.json(err);
-        }
     }
 });
 
@@ -108,7 +47,7 @@ router.post("/update", async (request, response, next) => {
 
     // console.log(body);
     if (body.api_key !== config.api_key) {
-        var err = new Error("Aip key is missing");
+        var err = new Error("API key is missing");
 
         err.status = 403;
         next(err);
