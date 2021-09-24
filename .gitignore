@@ -2,7 +2,7 @@
 /build
 
 # config
-/config
+# /config
 
 # dotenv environment variables file
 .env

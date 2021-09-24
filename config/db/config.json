@@ -1,0 +1,10 @@
+
+{
+    "dbName":               "jsramverk",
+    "collectionName":       "docs",
+    "testCollectionName":   "testdocs",
+    "username":             "texteditor",
+    "password":             "WARaaq3NK86zuEY",
+    "local_base_dsn":       "mongodb//localhost:27017/",
+    "cloud_db_url":         "jsramverk.ee3w4.mongodb.net/jsramverk?retryWrites=true&w=majority"
+}
