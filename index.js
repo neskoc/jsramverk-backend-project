@@ -15,8 +15,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 
 const index = require('./routes/index.js');
-const hello = require('./routes/hello.js');
-const user = require('./routes/user/user.js');
 const mongo = require('./routes/mongo/mongo.js');
 const middleware = require("./middleware/index.js");
 const path = require("path");
@@ -35,17 +33,17 @@ var ID = function () {
 };
 
 // console.log(ID(), '_' + Math.random().toString(36).substr(2, 9));
-app.use(session({ 
+app.use(session({
 
-    // It holds the secret key for session 
-    secret: ID(), 
+    // It holds the secret key for session
+    secret: ID(),
 
-    // Forces the session to be saved 
-    // back to the session store 
-    resave: true, 
+    // Forces the session to be saved
+    // back to the session store
+    resave: true,
 
-    // Forces a session that is "uninitialized" 
-    // to be saved to the store 
+    // Forces a session that is "uninitialized"
+    // to be saved to the store
     saveUninitialized: true
 }));
 
@@ -59,8 +57,6 @@ app.use(middleware.logIncomingToConsole);
 
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/', index);
-app.use('/user', user);
-app.use('/hello', hello);
 app.use('/mongo', mongo);
 
 

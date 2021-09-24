@@ -1,18 +1,18 @@
 /**
  * General middleware.
  */
- "use strict";
+"use strict";
 
- var express = require('express');
+// var express = require('express');
 
- module.exports = {
-     logIncomingToConsole,
-     StandardError,
-     CustomError
- };
- 
- 
- /**
+module.exports = {
+    logIncomingToConsole,
+    StandardError,
+    CustomError
+};
+
+
+/**
   * Log incoming requests to console to see who accesses the server
   * on what route.
   *
@@ -21,14 +21,15 @@
   * @param {Function} next Next to call in chain of middleware.
   *
   * @returns {void}
-  */
- function logIncomingToConsole(req, res, next) {
-     console.info(`Got request on ${req.path} (${req.method}).`);
-     next();
- }
+*/
+function logIncomingToConsole(req, res, next) {
+    console.info(`Got request on ${req.path} (${req.method}).`);
+    next();
+}
 
- function StandardError(req, res, next) {
+function StandardError(req, res, next) {
     var err = new Error("Not Found");
+
     err.status = 404;
     next(err);
 }

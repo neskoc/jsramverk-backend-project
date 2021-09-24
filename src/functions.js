@@ -26,14 +26,17 @@ module.exports = {
  *
  * @throws Error when database operation fails.
  *
- */
- async function createCollection(colName) {
+*/
+async function createCollection(colName) {
     const db = await mongodb.getDb().client.db();
-    await db.createCollection(colName, function(err, res) {
-        if (err) throw err;
+
+    await db.createCollection(colName, function(err) {
+        if (err) {
+            throw err;
+        }
         console.log("Collection created!");
         db.client.close();
-      });
+    });
 }
 
 /**
@@ -49,21 +52,21 @@ module.exports = {
  *
  * @return {Promise<array>} The resultset as an array.
  */
- async function findInCollection(criteria, projection, limit) {
+async function findInCollection(criteria, projection, limit) {
     const db = await mongodb.getDb();
     const col = await Promise.resolve(db.collection);
     const docs = await col.find(criteria, projection).limit(limit).toArray()
-    .then(docs => {
-        console.log("docs:");
-        console.log(docs);
-        return docs;
-    }).catch((err) => {
-        console.log(err);
-    }).finally(() => {
-        db.client.close();
-    });
-    return await Promise.resolve(docs);
+        .then(docs => {
+            console.log("docs:");
+            console.log(docs);
+            return docs;
+        }).catch((err) => {
+            console.log(err);
+        }).finally(() => {
+            db.client.close();
+        });
 
+    return await Promise.resolve(docs);
 }
 
 /**
@@ -75,12 +78,15 @@ module.exports = {
  *
  * @throws Error when database operation fails.
  *
- */
- async function insertIntoCollection(docObj) {
+*/
+async function insertIntoCollection(docObj) {
     const db = await mongodb.getDb();
     const col = await Promise.resolve(db.collection);
-    await Promise.resolve(col.insertOne(docObj, function(err, res) {
-        if (err) throw err;
+
+    await Promise.resolve(col.insertOne(docObj, function(err) {
+        if (err) {
+            throw err;
+        }
         console.log("Document inserted!");
         db.client.close();
     }));
@@ -97,14 +103,18 @@ module.exports = {
  *
  * @throws Error when database operation fails.
  *
- */
- async function updateDocument(myQuery, newContent) {
+*/
+async function updateDocument(myQuery, newContent) {
     const db = await mongodb.getDb();
     const col = await Promise.resolve(db.collection);
+
     console.log(newContent);
-    await Promise.resolve(col.updateOne(myQuery, {$set: newContent}, {upsert: true}, function(err, res) {
-        if (err) throw err;
-        console.log("Document updated!");
-        db.client.close();
-    }));
+    await Promise.resolve(col.updateOne(myQuery, {$set: newContent}, {upsert: true},
+        function(err) {
+            if (err) {
+                throw err;
+            }
+            console.log("Document updated!");
+            db.client.close();
+        }));
 }
