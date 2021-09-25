@@ -1,9 +1,9 @@
 language: node_js
 
-node_js: "node"
-node_js_14: "14"
+node_js:
+    - "node"
 
-services: mongodb
+# services: mongodb
 
 sudo: false
 
