@@ -11,6 +11,7 @@ const port = process.env.PORT || 1337;
 const express = require("express");
 const session = require('express-session');
 const app     = express();
+const server = app.listen(port, logStartUpDetailsToConsole);
 const morgan = require('morgan');
 const cors = require('cors');
 
@@ -21,6 +22,27 @@ const path = require("path");
 
 app.use(express.json());
 app.use(cors());
+
+const io = require("socket.io")(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
+
+io.sockets.on('connection', function(socket) {
+    console.log("socket.id: " + socket.id); // Nått lång och slumpat
+    // console.log(socket);
+    socket.on('create', function(room) {
+        console.log("room: " + room);
+        socket.join(room);
+    });
+    socket.on('doc', function(data) {
+        console.log("socket.on(doc):");
+        console.log(data);
+        socket.to(data._id).emit("doc", data);
+    });
+});
 
 app.set("view engine", "ejs");
 app.use(express.urlencoded({extended: false}));
@@ -47,7 +69,7 @@ app.use(session({
     saveUninitialized: true
 }));
 
-// don't show the log when it is test
+// don't show the log when it is not the test
 if (process.env.NODE_ENV !== 'test') {
     // use morgan to log at command line
     app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
@@ -62,8 +84,6 @@ app.use('/mongo', mongo);
 
 app.use(middleware.StandardError);
 app.use(middleware.CustomError);
-
-const server = app.listen(port, logStartUpDetailsToConsole);
 
 module.exports = server; // used for testing purposes
 
