@@ -21,18 +21,20 @@ const database = {
             useUnifiedTopology: true,
         });
         const db = client.db();
-        let collectionName = config.collectionName;
+        let collectionDocsName = config.collectionDocsName;
 
         if (process.env.NODE_ENV === 'test') {
             //  MongoDB Atlas is used even for testing but with different collection
-            collectionName = config.testCollectionName;
+            collectionDocsName = config.testCollectionDocsName;
         }
 
-        const collection = db.collection(collectionName);
+        const collectionDocs = db.collection(collectionDocsName);
+        const collectionUsers = db.collection(config.collectionUsersName);
 
         return {
-            collection: collection,
-            client: client
+            collectionDocs,
+            collectionUsers,
+            client
         };
     }
 };

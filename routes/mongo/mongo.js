@@ -21,26 +21,19 @@ router.get("/", function(request, response) {
 
 // Return a JSON object with list of all documents within the collection.
 router.get("/list", async (request, response, next) => {
-    if (request.query.api_key !== config.api_key) {
-        var err = new Error("API key is missing");
+    await mongo.findInCollection({}, {}, 0)
+        .then((docs) => {
+            const data = {
+                data: docs
+            };
 
-        err.status = 403;
-        next(err);
-    } else {
-        await mongo.findInCollection({}, {}, 0)
-            .then((docs) => {
-                const data = {
-                    data: docs
-                };
-
-                // console.log("docs in findincollection:");
-                // console.log(data);
-                response.status(201).json(data);
-            }).catch((err) => {
-                console.log(err);
-                response.json(err);
-            });
-    }
+            // console.log("docs in findincollection:");
+            // console.log(data);
+            response.status(201).json(data);
+        }).catch((err) => {
+            console.log(err);
+            response.json(err);
+        });
 });
 
 // Return a JSON object with list of all documents within the collection.
@@ -48,28 +41,21 @@ router.post("/update", async (request, response, next) => {
     const body = request.body;
 
     // console.log(body);
-    if (body.api_key !== config.api_key) {
-        var err = new Error("API key is missing");
+    try {
+        const myQuery = {
+            docName: body.doc.docName
+        };
+        const updatedDoc = {
+            content: body.doc.content
+        };
 
-        err.status = 403;
-        next(err);
-    } else {
-        try {
-            const myQuery = {
-                docName: body.doc.docName
-            };
-            const updatedDoc = {
-                content: body.doc.content
-            };
-
-            await mongo.updateDocument(myQuery, updatedDoc)
-                .then(() => {
-                    response.status(204).json();
-                });
-        } catch (err) {
-            console.log(err);
-            response.json(err);
-        }
+        await mongo.updateDocument(myQuery, updatedDoc)
+            .then(() => {
+                response.status(204).json();
+            });
+    } catch (err) {
+        console.log(err);
+        response.json(err);
     }
 });
 

@@ -2,15 +2,21 @@
 
 "use strict";
 
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const auth = require("../../models/auth.js");
 
-router.get("/register", function(request, response) {
+router.get("/", function(request, response) {
     const data = {
         data: {
-            msg: "Mongo API"
+            msg: "Auth API"
         }
     };
 
     response.json(data);
 });
+
+router.post('/login', (req, res) => auth.login(res, req.body));
+router.post('/register', (req, res) => auth.register(res, req.body));
+
+module.exports = router;

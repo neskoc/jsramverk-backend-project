@@ -15,9 +15,10 @@ const server = app.listen(port, logStartUpDetailsToConsole);
 const morgan = require('morgan');
 const cors = require('cors');
 
+const authModel = require("./models/auth.js");
 const index = require('./routes/index.js');
 const mongo = require('./routes/mongo/mongo.js');
-const auth = require('./routes/mongo/auth.js');
+const auth = require('./routes/auth/auth.js');
 const middleware = require("./middleware/index.js");
 const path = require("path");
 
@@ -75,6 +76,8 @@ if (process.env.NODE_ENV !== 'test') {
     // use morgan to log at command line
     app.use(morgan('combined')); // 'combined' outputs the Apache style LOGs
 }
+
+app.all('*', authModel.checkAPIKey);
 
 app.use(middleware.logIncomingToConsole);
 

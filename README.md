@@ -1,5 +1,5 @@
 # jsramverk-backend
-[![Build Status](https://app.travis-ci.com/neskoc/jsramverk-backend.svg?branch=master)](https://app.travis-ci.com/neskoc/jsramverk-backend)
+<!-- [![Build Status](https://app.travis-ci.com/neskoc/jsramverk-backend.svg?branch=master)](https://app.travis-ci.com/neskoc/jsramverk-backend) -->
 
 ## Node lokalt
 
