@@ -17,6 +17,7 @@ const cors = require('cors');
 
 const index = require('./routes/index.js');
 const mongo = require('./routes/mongo/mongo.js');
+const auth = require('./routes/mongo/auth.js');
 const middleware = require("./middleware/index.js");
 const path = require("path");
 
@@ -80,6 +81,7 @@ app.use(middleware.logIncomingToConsole);
 app.use(express.static(path.join(__dirname, "public")));
 app.use('/', index);
 app.use('/mongo', mongo);
+app.use('/auth', auth);
 
 
 app.use(middleware.StandardError);

@@ -4,8 +4,10 @@
 
 var express = require('express');
 var router = express.Router();
-const func = require("../../src/functions.js");
-const config = require("../../config/auth/auth.json");
+const mongo = require("../../models/mongo.js");
+let config = require("../../config/auth/auth.json");
+
+config.api_key = process.env.api_key || config.api_key;
 
 router.get("/", function(request, response) {
     const data = {
@@ -25,7 +27,7 @@ router.get("/list", async (request, response, next) => {
         err.status = 403;
         next(err);
     } else {
-        await func.findInCollection({}, {}, 0)
+        await mongo.findInCollection({}, {}, 0)
             .then((docs) => {
                 const data = {
                     data: docs
@@ -60,7 +62,7 @@ router.post("/update", async (request, response, next) => {
                 content: body.doc.content
             };
 
-            await func.updateDocument(myQuery, updatedDoc)
+            await mongo.updateDocument(myQuery, updatedDoc)
                 .then(() => {
                     response.status(204).json();
                 });

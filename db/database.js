@@ -6,7 +6,10 @@
 "use strict";
 
 const MongoClient = require("mongodb").MongoClient;
-const config = require("../config/db/config.json");
+let config = require("../config/db/config.json");
+
+config.username = process.env.mongo_user || config.username;
+config.password = process.env.mongo_pass || config.password;
 
 const database = {
     getDb: async function getDb() {

@@ -1,5 +1,5 @@
 /**
- * A collection of useful functions.
+ * A collection of useful mongodb-functions.
  *
  * @author Nenad Cuturic
  */
@@ -8,7 +8,7 @@
 "use strict";
 
 // MongoDB
-let mongodb = require('../db/database.js');
+const mongodb = require('../db/database.js');
 
 module.exports = {
     findInCollection,

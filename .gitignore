@@ -1,8 +1,8 @@
 # production
 /build
 
-# config
-# /config
+config
+config/
 
 # dotenv environment variables file
 .env
