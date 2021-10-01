@@ -17,8 +17,3 @@ else:
 
 print("bcrypt hash: ", hashed)
 
-hashed=b'$2a$10$sAFkwVBxgYeJRPmdYAfdqubq39tl0BIUY5zgnAKC/acTQMZi/aE3m'
-if bcrypt.checkpw(password.encode('utf-8'), hashed):
-    print("It Matches!")
-else:
-    print("It Does not Match :(")
