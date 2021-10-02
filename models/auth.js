@@ -26,6 +26,7 @@ const auth = {
         const apiKey = req.query.api_key || req.body.api_key;
         const path = req.path;
 
+        console.log(req.body);
         if (apiKey === trueApiKey) {
             return next();
         }
@@ -157,7 +158,7 @@ const auth = {
             }
 
             let filter = { email: email };
-            let newContent = { password: hash };
+            let newContent = { hash: hash };
 
             await mongo.createUser(filter, newContent)
                 .then(() => {
@@ -181,6 +182,18 @@ const auth = {
     },
 
     checkToken: function(request, response, next) {
+        const noTokenCheckPaths = [
+            '/',
+            '/auth',
+            '/auth/login',
+            '/auth/register',
+            '/mongo'
+        ];
+
+        if ( noTokenCheckPaths.includes(request.path)) {
+            return next();
+        }
+
         let token = request.headers['x-access-token'];
         let apiKey = request.query.api_key || request.body.api_key;
 

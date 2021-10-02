@@ -28,7 +28,7 @@ app.use(cors());
 const io = require("socket.io")(server, {
     cors: {
         origin: "*",
-        methods: ["GET", "POST"]
+        methods: ["GET", "POST", "PUT"]
     }
 });
 
@@ -78,6 +78,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 app.all('*', authModel.checkAPIKey);
+app.all('*', authModel.checkToken);
 
 app.use(middleware.logIncomingToConsole);
 

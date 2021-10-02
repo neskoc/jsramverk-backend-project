@@ -17,6 +17,6 @@ router.get("/", function(request, response) {
 });
 
 router.post('/login', (req, res) => auth.login(res, req.body));
-router.post('/register', (req, res) => auth.register(res, req.body));
+router.put('/register', (req, res) => auth.register(res, req.body));
 
 module.exports = router;

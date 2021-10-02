@@ -14,6 +14,7 @@ module.exports = {
     findInCollection,
     findInUsersCollection,
     updateDocument,
+    createDocument,
     createUser
 };
 
@@ -100,6 +101,33 @@ async function updateDocument(myQuery, newContent) {
                 throw err;
             }
             console.log("Document updated!");
+            db.client.close();
+        }));
+}
+
+/**
+ * Create document.
+ *
+ * @async
+ *
+ * @param {json object} myQuery    Query object.
+ *
+ * @param {json object} updatedDoc    New document object.
+ *
+ * @throws Error when database operation fails.
+ *
+*/
+async function createDocument(myQuery) {
+    const db = await mongodb.getDb();
+    const col = await Promise.resolve(db.collectionDocs);
+
+    console.log(myQuery);
+    await Promise.resolve(col.insertOne(myQuery,
+        function(err) {
+            if (err) {
+                throw err;
+            }
+            console.log("Document created!");
             db.client.close();
         }));
 }

@@ -21,7 +21,9 @@ router.get("/", function(request, response) {
 
 // Return a JSON object with list of all documents within the collection.
 router.get("/list", async (request, response, next) => {
-    await mongo.findInCollection({}, {}, 0)
+    const filter = { allowed_users:  request.user.email };
+
+    await mongo.findInCollection(filter, {}, 0)
         .then((docs) => {
             const data = {
                 data: docs
@@ -36,8 +38,32 @@ router.get("/list", async (request, response, next) => {
         });
 });
 
-// Return a JSON object with list of all documents within the collection.
-router.post("/update", async (request, response, next) => {
+// Create or update document.
+router.put("/create", async (request, response, next) => {
+    const body = request.body;
+
+    console.log("body");
+    console.log(body);
+    try {
+        const myQuery = {
+            docName: body.doc.docName,
+            content: body.doc.content,
+            owner: request.user.email,
+            allowed_users: [request.user.email]
+        };
+
+        await mongo.createDocument(myQuery)
+            .then(() => {
+                response.status(204).json();
+            });
+    } catch (err) {
+        console.log(err);
+        response.json(err);
+    }
+});
+
+// Create or update document.
+router.put("/update", async (request, response, next) => {
     const body = request.body;
 
     // console.log(body);
