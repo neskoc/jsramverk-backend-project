@@ -11,9 +11,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // MongoDB
-const mongodb = require('../db/database.js');
+// const mongodb = require('../db/database.js');
 const mongo = require("./mongo.js");
 const config = require("../config/auth/auth.json");
+
 // secret generated with: openssl rand -base64 64
 const jwtSecret = process.env.JWT_SECRET || config.secret;
 const trueApiKey = process.env.API_KEY || config.api_key;
@@ -22,16 +23,28 @@ const trueApiKey = process.env.API_KEY || config.api_key;
 //      htpasswd -bnBC 10 "" <password> | tr -d ':\n' | sed 's/$2y/$2a/'
 
 const auth = {
-    checkAPIKey: async function (req, res, next) {
-        const apiKey = req.query.api_key || req.body.api_key;
-        const path = req.path;
+    checkAPIKey: async function (request, response, next) {
+        const apiKey = request.query.api_key || request.body.api_key;
+        const path = request.path;
 
-        console.log(req.body);
+        const noAPIKeyCheckPaths = [
+            '/',
+            '/dummy',    // dummy path, to skip larger code change after testing of graphql
+            '/graphql', // for graphql tests
+            '/graphql/', // for graphql tests
+        ];
+
+        // console.log("path: ", request.path);
+        if ( noAPIKeyCheckPaths.includes(request.path)) {
+            return next();
+        }
+
+        console.log(request.body);
         if (apiKey === trueApiKey) {
             return next();
         }
 
-        return res.status(401).json({
+        return response.status(401).json({
             errors: {
                 status: 401,
                 source: path,
@@ -39,6 +52,55 @@ const auth = {
                 detail: "No valid API key provided."
             }
         });
+    },
+
+    checkToken: function(request, response, next) {
+        const noTokenCheckPaths = [
+            '/', // status msg
+            '/auth',
+            '/auth/login',
+            '/auth/register',
+            '/mongo', // status msg
+            '/graphql', // for graphql tests
+            '/graphql/', // for graphql tests
+        ];
+
+        if ( noTokenCheckPaths.includes(request.path)) {
+            return next();
+        }
+
+        let token = request.headers['x-access-token'];
+        let apiKey = request.query.api_key || request.body.api_key;
+
+        if (token) {
+            jwt.verify(token, jwtSecret, function(err, decoded) {
+                if (err) {
+                    return response.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: request.path,
+                            title: "Failed authentication",
+                            detail: err.message
+                        }
+                    });
+                }
+
+                request.user = {};
+                request.user.api_key = apiKey;
+                request.user.email = decoded.email;
+
+                return next();
+            });
+        } else {
+            return response.status(401).json({
+                errors: {
+                    status: 401,
+                    source: request.path,
+                    title: "No token",
+                    detail: "No token provided in request headers"
+                }
+            });
+        }
     },
 
     login: async function(response, body) {
@@ -179,53 +241,6 @@ const auth = {
                     });
                 });
         });
-    },
-
-    checkToken: function(request, response, next) {
-        const noTokenCheckPaths = [
-            '/',
-            '/auth',
-            '/auth/login',
-            '/auth/register',
-            '/mongo'
-        ];
-
-        if ( noTokenCheckPaths.includes(request.path)) {
-            return next();
-        }
-
-        let token = request.headers['x-access-token'];
-        let apiKey = request.query.api_key || request.body.api_key;
-
-        if (token) {
-            jwt.verify(token, jwtSecret, function(err, decoded) {
-                if (err) {
-                    return response.status(500).json({
-                        errors: {
-                            status: 500,
-                            source: request.path,
-                            title: "Failed authentication",
-                            detail: err.message
-                        }
-                    });
-                }
-
-                request.user = {};
-                request.user.api_key = apiKey;
-                request.user.email = decoded.email;
-
-                return next();
-            });
-        } else {
-            return response.status(401).json({
-                errors: {
-                    status: 401,
-                    source: request.path,
-                    title: "No token",
-                    detail: "No token provided in request headers"
-                }
-            });
-        }
     }
 };
 

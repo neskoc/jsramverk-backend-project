@@ -1,4 +1,5 @@
 {
-    "watch": ["index.js", "src/", "public/", "middleware/", "routes/"],
+    "watch": ["index.js", "server.js", "nodemon.json", "models/", "graphql/", "src/",
+        "public/", "middleware/", "routes/"],
     "ext": "js, ejs, css"
 }
