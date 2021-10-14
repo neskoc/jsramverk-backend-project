@@ -85,18 +85,20 @@ const auth = {
                 request.user = {};
                 request.user.api_key = apiKey;
                 request.user.email = decoded.email;
-                if (decoded.email !== request.body.variables.email) {
-                    console.log("Invalid email in body: " + request.body.variables.email);
-                    return response.status(500).json({
-                        errors: {
-                            status: 500,
-                            source: request.path,
-                            title: "Emails don't match!",
-                            detail: err.message
-                        }
-                    });
+                if ( Object.prototype.hasOwnProperty.call(request.body, "email") ) {
+                    if (decoded.email !== request.body.variables.email) {
+                        console.log("Invalid email in body: " + request.body.variables.email);
+                        return response.status(500).json({
+                            errors: {
+                                status: 500,
+                                source: request.path,
+                                title: "Emails don't match!",
+                                detail: err.message
+                            }
+                        });
+                    }
+                    console.log("Emails match!");
                 }
-                console.log("Emails match!");
 
                 return next();
             });

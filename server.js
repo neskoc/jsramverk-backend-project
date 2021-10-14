@@ -18,6 +18,7 @@ const index = require('./routes/index.js');
 const mongo = require('./routes/mongo/mongo.js');
 const auth = require('./routes/auth/auth.js');
 const graphql = require('./routes/graphql/graphql.js');
+const htmlToPdf = require('./routes/htmlToPdf/htmlToPdf.js');
 const middleware = require("./middleware/index.js");
 const path = require("path");
 
@@ -67,6 +68,7 @@ app.use('/', index);
 app.use('/mongo', mongo);
 app.use('/auth', auth);
 app.use('/graphql', graphql);
+app.use('/htmlToPdf', htmlToPdf);
 
 app.use(middleware.StandardError);
 app.use(middleware.CustomError);
