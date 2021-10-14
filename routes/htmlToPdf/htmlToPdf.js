@@ -12,10 +12,6 @@ router.post("/", function(request, response) {
         const file = { content: request.body.content.content };
 
         htmlToPdf.generatePdf(file, options).then(pdfBuffer => {
-           /*  const data = {
-                data: pdfBuffer
-            }; */
-
             console.log("PDF Buffer:-", pdfBuffer);
             response.status(201).send(Buffer.from(pdfBuffer));
         });
