@@ -13,6 +13,7 @@ const DocType = new GraphQLObjectType({
     name: 'Document',
     description: 'This type represents a doc created by the owner',
     fields: () => ({
+        _id: { type: GraphQLNonNull(GraphQLString) },
         docName: { type: GraphQLNonNull(GraphQLString) },
         content: { type: GraphQLNonNull(GraphQLString) },
         owner: { type: GraphQLNonNull(GraphQLString) },

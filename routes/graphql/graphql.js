@@ -17,9 +17,10 @@ const schema = new GraphQLSchema({
     query: RootQueryType
 });
 
-router.post("/",  graphqlHTTP({
+router.post("/",  graphqlHTTP((req) => ({
     schema: schema,
+    context: req.body,
     graphiql: visual, // Visual is sett to true during development
-}));
+})));
 
 module.exports = router;

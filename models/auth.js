@@ -24,14 +24,12 @@ const trueApiKey = process.env.API_KEY || config.api_key;
 
 const auth = {
     checkAPIKey: async function (request, response, next) {
-        const apiKey = request.query.api_key || request.body.api_key;
+        const apiKey = request.query.api_key || request.body.api_key || request.headers.api_key;
         const path = request.path;
 
         const noAPIKeyCheckPaths = [
-            '/',
             '/dummy',    // dummy path, to skip larger code change after testing of graphql
-            '/graphql', // for graphql tests
-            '/graphql/', // for graphql tests
+            // '/graphql', // for graphql tests
         ];
 
         // console.log("path: ", request.path);
@@ -61,8 +59,7 @@ const auth = {
             '/auth/login',
             '/auth/register',
             '/mongo', // status msg
-            '/graphql', // for graphql tests
-            '/graphql/', // for graphql tests
+            // '/graphql', // for graphql tests
         ];
 
         if ( noTokenCheckPaths.includes(request.path)) {
@@ -88,6 +85,18 @@ const auth = {
                 request.user = {};
                 request.user.api_key = apiKey;
                 request.user.email = decoded.email;
+                if (decoded.email !== request.body.variables.email) {
+                    console.log("Invalid email in body: " + request.body.variables.email);
+                    return response.status(500).json({
+                        errors: {
+                            status: 500,
+                            source: request.path,
+                            title: "Emails don't match!",
+                            detail: err.message
+                        }
+                    });
+                }
+                console.log("Emails match!");
 
                 return next();
             });

@@ -20,11 +20,13 @@ const RootQueryType = new GraphQLObjectType({
             type: GraphQLList(DocType),
             description: 'List of all documents, with content that user is allowed to edit',
             args: {
-                email: { type: GraphQLString }
+                email: { type: GraphQLNonNull(GraphQLString) }
             },
-            resolve: async function(parent, args) {
+            resolve: async function(parent, args, context) {
                 console.log("email: ");
                 console.log(args.email);
+                console.log("context: ");
+                console.log(context);
 
                 const filter = { allowed_users: args.email };
 
