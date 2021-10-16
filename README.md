@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # jsramverk-backend-project
 
 <!-- [![Build Status](https://app.travis-ci.com/neskoc/jsramverk-backend-projekt.svg?branch=master)](https://app.travis-ci.com/neskoc/jsramverk-backend-project) -->
@@ -18,3 +19,8 @@ Hudvudfilen `mongo.js` hittas i mappaen `routes/mongo/mongo.js`
   - `/get (POST)` - hämtar ett dokument (används inte av frontend)
 
 Errorhantering sker via middleware i mappen `middleware/index.js`
+=======
+# jsramverk-frontend-project
+
+<!-- [![Build Status](https://app.travis-ci.com/neskoc/jsramverk-frontend-project.svg?branch=master)](https://app.travis-ci.com/neskoc/jsramverk-frontend-project) -->
+>>>>>>> 105cfe8 (Changing to Azure)
