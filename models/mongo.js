@@ -121,6 +121,7 @@ async function createDocument(myQuery) {
     const db = await mongodb.getDb();
     const col = await Promise.resolve(db.collectionDocs);
 
+    console.log("myQuery:");
     console.log(myQuery);
     await Promise.resolve(col.insertOne(myQuery,
         function(err) {

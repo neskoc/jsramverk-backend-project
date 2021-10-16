@@ -73,7 +73,8 @@ router.put("/update", async (request, response, next) => {
             docName: body.doc.docName
         };
         const updatedDoc = {
-            content: body.doc.content
+            content: body.doc.content,
+            type: body.doc.type,
         };
 
         await mongo.updateDocument(myQuery, updatedDoc)
