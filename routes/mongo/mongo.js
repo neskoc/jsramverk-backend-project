@@ -48,6 +48,7 @@ router.put("/create", async (request, response, next) => {
         const myQuery = {
             docName: body.doc.docName,
             content: body.doc.content,
+            type: body.doc.type,
             owner: request.user.email,
             allowed_users: [request.user.email]
         };
