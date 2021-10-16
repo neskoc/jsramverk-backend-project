@@ -15,6 +15,7 @@ const DocType = new GraphQLObjectType({
     fields: () => ({
         _id: { type: GraphQLNonNull(GraphQLString) },
         docName: { type: GraphQLNonNull(GraphQLString) },
+        type: { type: GraphQLString },
         content: { type: GraphQLNonNull(GraphQLString) },
         owner: { type: GraphQLNonNull(GraphQLString) },
         allowed_users: {
