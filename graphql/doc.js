@@ -2,6 +2,8 @@
 
 "use strict";
 
+const CommentType = require("./comments.js");
+
 const {
     GraphQLObjectType,
     GraphQLString,
@@ -22,6 +24,13 @@ const DocType = new GraphQLObjectType({
             type: GraphQLNonNull(GraphQLList(GraphQLString)),
             resolve: (doc) => {
                 return doc.allowed_users;
+            }
+        },
+        comments: {
+            type: GraphQLList(CommentType),
+            description: 'List of comments',
+            resolve: (doc) => {
+                return doc.comments;
             }
         },
     })

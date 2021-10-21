@@ -16,6 +16,11 @@ const database = {
         // let dsn = `mongodb://localhost:27017/folinodocs`;
         // don't show the log when it is test
         let dsn = `mongodb+srv://${config.username}:${config.password}@${config.cloud_db_url}`;
+
+        if (process.env.MONGODB_LOCAL === 'true') {
+            //  use local MongoDB
+            dsn = config.local_base_dsn;
+        }
         const client  = await MongoClient.connect(dsn, {
             useNewUrlParser: true,
             useUnifiedTopology: true,

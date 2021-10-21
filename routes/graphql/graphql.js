@@ -23,4 +23,10 @@ router.post("/",  graphqlHTTP((req) => ({
     graphiql: visual, // Visual is sett to true during development
 })));
 
+router.get("/",  graphqlHTTP((req) => ({
+    schema: schema,
+    context: req.body,
+    graphiql: visual, // Visual is sett to true during development
+})));
+
 module.exports = router;

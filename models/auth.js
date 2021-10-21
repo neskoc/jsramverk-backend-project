@@ -29,7 +29,7 @@ const auth = {
 
         const noAPIKeyCheckPaths = [
             '/dummy',    // dummy path, to skip larger code change after testing of graphql
-            // '/graphql', // for graphql tests
+            '/graphql', // for graphql tests
         ];
 
         // console.log("path: ", request.path);
@@ -59,7 +59,7 @@ const auth = {
             '/auth/login',
             '/auth/register',
             '/mongo', // status msg
-            // '/graphql', // for graphql tests
+            '/graphql', // for graphql tests
         ];
 
         if ( noTokenCheckPaths.includes(request.path)) {
