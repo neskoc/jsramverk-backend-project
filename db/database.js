@@ -8,6 +8,8 @@
 const MongoClient = require("mongodb").MongoClient;
 let config = require("../config/db/config.json");
 
+require('dotenv').config({ path: '.env.development' });
+
 config.username = process.env.mongo_user || config.username;
 config.password = process.env.mongo_pass || config.password;
 
@@ -17,6 +19,7 @@ const database = {
         // don't show the log when it is test
         let dsn = `mongodb+srv://${config.username}:${config.password}@${config.cloud_db_url}`;
 
+        console.log(process.env.MONGODB_LOCAL);
         if (process.env.MONGODB_LOCAL === 'true') {
             //  use local MongoDB
             dsn = config.local_base_dsn;
