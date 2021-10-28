@@ -50,11 +50,14 @@ router.put("/create", async (request, response, next) => {
             content: body.doc.content,
             type: body.doc.type,
             owner: request.user.email,
-            allowed_users: [request.user.email]
+            allowed_users: [request.user.email],
+            comments: body.doc.comments,
         };
 
         await mongo.createDocument(myQuery)
             .then(() => {
+                console.log("body in /create:");
+                console.log(body);
                 response.status(204).json();
             });
     } catch (err) {
@@ -75,10 +78,13 @@ router.put("/update", async (request, response, next) => {
         const updatedDoc = {
             content: body.doc.content,
             type: body.doc.type,
+            comments: body.doc.comments,
         };
 
         await mongo.updateDocument(myQuery, updatedDoc)
             .then(() => {
+                console.log("body in /update:");
+                console.log(body);
                 response.status(204).json();
             });
     } catch (err) {

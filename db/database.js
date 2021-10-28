@@ -19,7 +19,7 @@ const database = {
         // don't show the log when it is test
         let dsn = `mongodb+srv://${config.username}:${config.password}@${config.cloud_db_url}`;
 
-        console.log(process.env.MONGODB_LOCAL);
+        console.log(`MONGODB_LOCAL: ${process.env.MONGODB_LOCAL}`);
         if (process.env.MONGODB_LOCAL === 'true') {
             //  use local MongoDB
             dsn = config.local_base_dsn;
