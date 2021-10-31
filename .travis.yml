@@ -3,7 +3,7 @@ language: node_js
 node_js:
     - "16"
 
-# services: mongodb
+services: mongodb
 
 sudo: false
 

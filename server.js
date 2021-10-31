@@ -100,6 +100,4 @@ function logStartUpDetailsToConsole() {
     });
 
     console.info(`Server is listening on port ${port}.`);
-    // console.info("Available routes are:");
-    // console.info(routes);
 }
