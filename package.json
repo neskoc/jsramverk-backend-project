@@ -1,6 +1,6 @@
 {
   "name": "jsramverk",
-  "version": "10.1.4",
+  "version": "10.2.0",
   "description": "Backend for jsramverk course",
   "main": "server.js",
   "scripts": {
