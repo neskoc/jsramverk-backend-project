@@ -31,6 +31,8 @@ const database = {
         const db = client.db();
         let collectionDocsName = config.collectionDocsName;
 
+        console.log(`ds: ${dsn}`);
+
         if (process.env.NODE_ENV === 'test') {
             //  MongoDB Atlas is used even for testing but with different collection
             collectionDocsName = config.testCollectionDocsName;

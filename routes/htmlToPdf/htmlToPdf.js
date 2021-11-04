@@ -9,7 +9,8 @@ const htmlToPdf = require('html-pdf-node');
 router.post("/", function(request, response) {
     try {
         const options = { format: 'A4' };
-        const file = { content: request.body.content.content };
+        const content = request.body.content.content ? request.body.content.content : "<p></p>";
+        const file = { content: content };
 
         htmlToPdf.generatePdf(file, options).then(pdfBuffer => {
             console.log("PDF Buffer:-", pdfBuffer);

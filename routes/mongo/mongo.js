@@ -4,6 +4,8 @@
 
 var express = require('express');
 var router = express.Router();
+
+const ObjectId = require("mongodb").ObjectId;
 const mongo = require("../../models/mongo.js");
 let config = require("../../config/auth/auth.json");
 
@@ -75,6 +77,10 @@ router.put("/update", async (request, response, next) => {
         const myQuery = {
             docName: body.doc.docName
         };
+
+        if (body.doc._id) {
+            myQuery._id = new ObjectId(body.doc._id);
+        }
         const updatedDoc = {
             content: body.doc.content,
             type: body.doc.type,
